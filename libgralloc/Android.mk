@@ -32,6 +32,10 @@ ifeq ($(BOARD_NO_PAGE_FLIPPING),true)
 	LOCAL_CFLAGS += -DNO_PAGE_FLIPPING
 endif
 
+ifeq ($(BOARD_NO_32BPP),true)
+	LOCAL_CFLAGS += -DNO_32BPP
+endif
+
 LOCAL_C_INCLUDES += brcm_usrlib/dag/v3d_library/inc
 
 include $(BUILD_SHARED_LIBRARY)
