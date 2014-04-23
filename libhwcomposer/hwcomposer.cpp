@@ -319,7 +319,6 @@ static int hwc_set(hwc_composer_device_t *dev,
         if(t1.tv_sec == ctx->logtime) {
 			ctx->ucount++;
 			} else {
-			LOGE("FrameBuffer [%d] reloads", ctx->ucount);
 			ctx->ucount = 1;
 			ctx->logtime = t1.tv_sec;
 			}
