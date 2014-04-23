@@ -47,7 +47,7 @@ PRODUCT_PACKAGES += \
 
 # Other
 PRODUCT_PACKAGES += \
-    CMFileManager \
+	FileManager \
     make_ext4fs \
     setup_fs
 
