@@ -12,31 +12,49 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-
-# Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
-
-# Add device package overlay
-DEVICE_PACKAGE_OVERLAYS := device/samsung/bcm21553-common/overlay
+# Add common package overlay
+DEVICE_PACKAGE_OVERLAYS += device/samsung/bcm21553-common/overlay
 
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/bcm21553-common/include
 
-## HW drivers
+# These are the hardware-specific configuration files
+PRODUCT_COPY_FILES := \
+    device/samsung/bcm21553-common/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
+    device/samsung/bcm21553-common/prebuilt/etc/bluetooth/main.conf:system/etc/bluetooth/main.conf
+
+# Init files
+PRODUCT_COPY_FILES += \
+    device/samsung/bcm21553-common/ramdisk/init.rc:root/init.rc \
+    device/samsung/bcm21553-common/ramdisk/init.bcm21553.rc:root/init.bcm21553.rc \
+    device/samsung/bcm21553-common/ramdisk/init.bcm21553.gps.rc:root/init.bcm21553.gps.rc \
+    device/samsung/bcm21553-common/ramdisk/init.bcm21553.wifi.rc:root/init.bcm21553.wifi.rc \
+    device/samsung/bcm21553-common/ramdisk/init.bcm21553.usb.rc:root/init.bcm21553.usb.rc \
+    device/samsung/bcm21553-common/ramdisk/init.charge.rc:root/init.charge.rc \
+    device/samsung/bcm21553-common/ramdisk/ueventd.bcm21553.rc:root/ueventd.bcm21553.rc \
+    device/samsung/bcm21553-common/ramdisk/init:root/init \
+    device/samsung/bcm21553-common/ramdisk/adbd:root/sbin/adbd \
+    device/samsung/bcm21553-common/ramdisk/init.bcm21553.usb.rc:recovery/root/usb.rc \
+    device/samsung/bcm21553-common/ramdisk/init.bcm21553.fs.rc:recovery/root/fs.rc \
+    device/samsung/bcm21553-common/ramdisk/init:recovery/root/init \
+    device/samsung/bcm21553-common/ramdisk/adbd:recovery/root/sbin/adbd
+
+# HW drivers
 PRODUCT_PACKAGES += \
     libGLES_hgl \
     hwcomposer.bcm21553 \
     gralloc.bcm21553
 
-## Audio
+# Audio
 PRODUCT_PACKAGES += \
     audio.primary.bcm21553 \
-    audio_policy.bcm21553 \
-    audio.a2dp.default \
+    libtinyalsa \
     libasound \
-    libaudiohw_legacy \
+    audio.a2dp.default \
     libaudioutils
+	
+PRODUCT_COPY_FILES += \
+    device/samsung/bcm21553-common/prebuilt/etc/tiny_hw.xml:system/etc/sound/GT-S5360
+
 
 # Video decoding
 PRODUCT_PACKAGES += \
@@ -47,7 +65,7 @@ PRODUCT_PACKAGES += \
 
 # Other
 PRODUCT_PACKAGES += \
-	FileManager \
+    FileManager \
     make_ext4fs \
     setup_fs
 
